@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+ <title>Roblox Clicker</title>
+ <link rel="stylesheet" href="styles.css" />
+ <style>
+  .button-image {
+ display: inline-block;
+ border: none;
+ cursor: pointer;
+ user-drag: none; 
+ -webkit-user-drag: none;
+ outline: none; 
+  }
+
+  body {
+ font-family: Arial, sans-serif;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ height: 100vh;
+ color: azure;
+ background-color: #121314;
+ overflow: hidden;
+ user-select: none;
+  }
+
+  .container {
+ text-align: center;
+ background: #1e1f21;
+ padding: 40px 80px;
+ border-radius: 8px;
+ box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+ overflow: hidden;
+  }
+
+  button {
+ padding: 20px 60px;
+ margin: 10px;
+ border: none;
+ border-radius: 30px;
+ background-color: #007bff;
+ color: white;
+ cursor: pointer;
+ transition: background-color 0.3s;
+  }
+
+  .notification {
+ position: absolute;
+ width: 30px; 
+ height: 30px; 
+ pointer-events: none;
+ transition: opacity 1.5s;
+  }
+ </style>
+</head>
+<body>
+ <div class="container">
+  <h1>Кликер <img src ="https://i.ibb.co/qLRshf5B/IMG-7018.jpg" style="width: 30px;"></h1>
+  <p>Ваши лудик токены: <span id="clickCount">0</span></p>
+  <a href="#" class="button-image" id="clickButton">
+ <img src="https://i.ibb.co/vxjtxdhZ/IMG-7015.jpg" alt=" " style="width: 200px" />
+  </a>
+ </div>
+ <script>
+   let clickCount = localStorage.getItem('clickCount') ? parseInt(localStorage.getItem('clickCount')) : 0;
+   const clickButton = document.getElementById('clickButton');
+   const clickCountDisplay = document.getElementById('clickCount');
+
+   clickCountDisplay.textContent = clickCount;
+
+   clickButton.addEventListener('click', (event) => {
+ event.preventDefault();
+ clickCount += 1; 
+ clickCountDisplay.textContent = clickCount;
+
+ localStorage.setItem('clickCount', clickCount);
+
+ const notification = document.createElement('div');
+ notification.classList.add('notification');
+
+ const img = document.createElement('img');
+ img.src = 'https://tr.rbxcdn.com/180DAY-7291e0ccea3e6fb3539b3c0411017608/420/420/Hat/Webp/noFilter'; 
+ img.style.width = '100%'; 
+ img.style.height = '100%'; 
+ notification.appendChild(img);
+
+ const buttonRect = clickButton.getBoundingClientRect();
+ const randomX = Math.random() * (buttonRect.width + 40) - 20; 
+ const randomY = Math.random() * (buttonRect.height + 40) - 20; 
+
+ notification.style.left = buttonRect.left + randomX + 'px';
+ notification.style.top = buttonRect.top + randomY + 'px';
+ document.body.appendChild(notification);
+
+ setTimeout(() => {
+   notification.style.opacity = '0';
+ }, 0);
+ setTimeout(() => {
+   document.body.removeChild(notification);
+ }, 1500);
+   });
+ </script>
+</body>
+</html>
